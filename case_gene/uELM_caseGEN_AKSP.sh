@@ -62,9 +62,9 @@ cd "${CASEDIR}"
 
 ./xmlchange LND_DOMAIN_FILE="${DOMAIN_FILE}"
 
-./xmlchange JOB_WALLCLOCK_TIME="1:00"
+./xmlchange JOB_WALLCLOCK_TIME="2:00"
 
-./xmlchange USER_REQUESTED_WALLTIME="1:00"
+./xmlchange USER_REQUESTED_WALLTIME="2:00"
 
 echo "fsurdat = '${CASE_DATA}/atm_forcing.datm7.uELM_NADaymet.1d.c231120/${SURFDATA_FILE}'
       hist_nhtfrq=-120
