@@ -18,7 +18,7 @@ CASE_DATA="${DATA_ROOT}/${EXPID}"
 DOMAIN_FILE="${EXPID}_domain.lnd.Daymet_NA.1km.1d.c240524.nc"
 SURFDATA_FILE="${EXPID}_surfdata.Daymet_NA.1km.1d.c240524.nc"
 
-PECOUNT="44"
+PECOUNT="42"
 
 \rm -rf "${CASEDIR}"
 
@@ -46,7 +46,7 @@ cd "${CASEDIR}"
 
 ./xmlchange ATM_NCPL=24
 
-./xmlchange STOP_N=10
+./xmlchange STOP_N=30
 
 ./xmlchange STOP_OPTION=ndays
 
@@ -67,21 +67,16 @@ cd "${CASEDIR}"
 
 ./xmlchange USER_REQUESTED_WALLTIME="2:00"
 
-./xmlchange PIO_TYPENAME=netcdf4p
-
-./xmlchange PIO_NETCDF_FORMAT=64bit_data
-
-
 echo "fsurdat = '${CASE_DATA}/domain_surfdata/${SURFDATA_FILE}'
-      hist_nhtfrq=-24
-      hist_mfilt=31
+      hist_nhtfrq=-720
+      hist_mfilt=1
      " >> user_nl_elm
 
 ./case.setup --reset
 
 ./case.setup
 
-./case.build --clean
+#./case.build --clean
 
-./case.build
+#./case.build
 

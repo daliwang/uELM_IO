@@ -7,7 +7,7 @@ set -e
 E3SM_DIN="/gpfs/alpine2/cli180/proj-shared/wangd/inputdata"
 EXPID="AKSPx10"
 
-E3SM_SRCROOT=$PWD/../
+E3SM_SRCROOT=$PWD/../../
 CASEDIR="$E3SM_SRCROOT/e3sm_cases/uELM_${EXPID}_I1850uELMCNPRDCTCBC"
 echo "E3SM_SRCROOT: $E3SM_SRCROOT"
 echo "E3SM_DIN: $E3SM_DIN"
@@ -44,10 +44,12 @@ cd "${CASEDIR}"
 
 ./xmlchange STOP_N=5
 
+./xmlchange REST_N=10
+
 ./xmlchange STOP_OPTION=ndays
 
-./xmlchange NTASKS_ATM=42
-./xmlchange NTASKS_CPL=42
+./xmlchange NTASKS_ATM=112
+./xmlchange NTASKS_CPL=112
 ./xmlchange NTASKS_LND=420
 
 ./xmlchange MAX_MPITASKS_PER_NODE=42
@@ -60,16 +62,16 @@ cd "${CASEDIR}"
 
 ./xmlchange LND_DOMAIN_FILE="${DOMAIN_FILE}"
 
-./xmlchange JOB_WALLCLOCK_TIME="1:00"
+./xmlchange JOB_WALLCLOCK_TIME="2:00"
 
-./xmlchange USER_REQUESTED_WALLTIME="1:00"
+./xmlchange USER_REQUESTED_WALLTIME="2:00"
 
 ./xmlchange PIO_TYPENAME="pnetcdf"
 # Use 64bit_data for large variables
 ./xmlchange PIO_NETCDF_FORMAT="64bit_data"
 
 # Set SCORPIO buffer size to 64 MB
-./xmlchange PIO_BUFFER_SIZE_LIMIT=67108864
+#./xmlchange PIO_BUFFER_SIZE_LIMIT=67108864
 
 # turn off the history files
 
@@ -79,14 +81,15 @@ cd "${CASEDIR}"
 
 
 echo "fsurdat = '${CASE_DATA}/domain_surfdata/${SURFDATA_FILE}'
-      hist_nhtfrq=-120
-      hist_mfilt=1
+hist_empty_htapes = .true.
      " >> user_nl_elm
 
 ./case.setup --reset
 
 ./case.setup
 
-./case.build --clean
+./case.build --clean-all
 
 ./case.build
+
+./case.submit

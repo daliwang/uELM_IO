@@ -46,7 +46,7 @@ cd "${CASEDIR}"
 
 ./xmlchange ATM_NCPL=24
 
-./xmlchange STOP_N=5
+./xmlchange STOP_N=30
 
 ./xmlchange STOP_OPTION=ndays
 
@@ -62,16 +62,16 @@ cd "${CASEDIR}"
 
 ./xmlchange LND_DOMAIN_FILE="${DOMAIN_FILE}"
 
-./xmlchange JOB_WALLCLOCK_TIME="1:00"
+./xmlchange JOB_WALLCLOCK_TIME="2:00"
 
-./xmlchange USER_REQUESTED_WALLTIME="1:00"
+./xmlchange USER_REQUESTED_WALLTIME="2:00"
 
 echo "fsurdat = '${CASE_DATA}/atm_forcing.datm7.uELM_NADaymet.1d.c231120/${SURFDATA_FILE}'
-      hist_nhtfrq=-120
+      hist_nhtfrq=-720
       hist_mfilt=1
      " >> user_nl_elm
 
-./case.setup --reset
+#./case.setup --reset
 
 ./case.setup
 

@@ -7,7 +7,7 @@ set -e
 E3SM_DIN="/gpfs/alpine2/cli180/proj-shared/wangd/inputdata"
 EXPID="AKSPx10x10x3"
 
-E3SM_SRCROOT=$PWD/../
+E3SM_SRCROOT=$PWD/../../
 CASEDIR="$E3SM_SRCROOT/e3sm_cases/uELM_${EXPID}_I1850uELMCNPRDCTCBC"
 echo "E3SM_SRCROOT: $E3SM_SRCROOT"
 echo "E3SM_DIN: $E3SM_DIN"
@@ -44,6 +44,8 @@ cd "${CASEDIR}"
 
 ./xmlchange STOP_N=5
 
+./xmlchange REST_N=10
+
 ./xmlchange STOP_OPTION=ndays
 
 ./xmlchange NTASKS_LND=100800
@@ -64,12 +66,15 @@ cd "${CASEDIR}"
 
 ./xmlchange JOB_WALLCLOCK_TIME="1:00"
 
+./xmlchange USER_REQUESTED_WALLTIME="1:00"
+
 ./xmlchange PIO_TYPENAME="pnetcdf"
+
 # Use 64bit_data for large variables
 ./xmlchange PIO_NETCDF_FORMAT="64bit_data"
 
 # Set SCORPIO buffer size to 64 MB
-./xmlchange PIO_BUFFER_SIZE_LIMIT=67108864
+#./xmlchange PIO_BUFFER_SIZE_LIMIT=67108864
 
 echo "fsurdat = '${CASE_DATA}/domain_surfdata/${SURFDATA_FILE}'
 hist_empty_htapes = .true.
@@ -79,7 +84,9 @@ hist_empty_htapes = .true.
 
 ./case.setup
 
-./case.build --clean
+./case.build --clean-all
 
 ./case.build
+
+./case.submit
 

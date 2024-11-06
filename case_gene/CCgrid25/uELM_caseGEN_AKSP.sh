@@ -7,7 +7,7 @@ set -e
 E3SM_DIN="/gpfs/alpine2/cli180/proj-shared/wangd/inputdata"
 EXPID="AKSP"
 
-E3SM_SRCROOT=$PWD/../
+E3SM_SRCROOT=$PWD/../../
 CASEDIR="$E3SM_SRCROOT/e3sm_cases/uELM_${EXPID}_I1850uELMCNPRDCTCBC"
 echo "E3SM_SRCROOT: $E3SM_SRCROOT"
 echo "E3SM_DIN: $E3SM_DIN"
@@ -44,11 +44,13 @@ cd "${CASEDIR}"
 
 ./xmlchange STOP_N=5
 
+./xmlchange REST_N=10
+
 ./xmlchange STOP_OPTION=ndays
 
 ./xmlchange NTASKS_LND=42
-./xmlchange NTASKS_ATM=42
-./xmlchange NTASKS_CPL=42
+./xmlchange NTASKS_ATM=11
+./xmlchange NTASKS_CPL=11
 
 ./xmlchange MAX_MPITASKS_PER_NODE=42
 
@@ -60,21 +62,21 @@ cd "${CASEDIR}"
 
 ./xmlchange LND_DOMAIN_FILE="${DOMAIN_FILE}"
 
-./xmlchange JOB_WALLCLOCK_TIME="1:00"
+./xmlchange JOB_WALLCLOCK_TIME="2:00"
 
-./xmlchange USER_REQUESTED_WALLTIME="1:00"
+./xmlchange USER_REQUESTED_WALLTIME="2:00"
 
 # it is for the file output case
 echo "fsurdat = '${CASE_DATA}/atm_forcing.datm7.uELM_NADaymet.1d.c231120/${SURFDATA_FILE}'
-      hist_nhtfrq=-120
-      hist_mfilt=1
+hist_empty_htapes = .true.
      " >> user_nl_elm
 
 ./case.setup --reset
 
 ./case.setup
 
-#./case.build --clean
+./case.build --clean-all
 
 ./case.build
 
+./case.submit
