@@ -10,7 +10,7 @@ E3SM_SRCROOT=$(git rev-parse --show-toplevel)
 echo "E3SM_SRCROOT: $E3SM_SRCROOT"
 echo "E3SM_DIN: $E3SM_DIN"
 
-EXPID="AKSP"
+EXPID="AKSPx10"
 CASEDIR="$E3SM_SRCROOT/e3sm_cases/uELM_${EXPID}_I1850uELMCNPRDCTCBC"
 CASE_DATA="${DATA_ROOT}/${EXPID}"
 DOMAIN_FILE="${EXPID}_domain.lnd.Daymet_NA.1km.1d.c240524.nc"
@@ -46,7 +46,8 @@ cd "${CASEDIR}"
 
 ./xmlchange STOP_OPTION=ndays
 
-./xmlchange NTASKS_LND=40
+./xmlchange NTASKS_LND=1280
+./xmlchange NTASKS_ATM=128
 
 ./xmlchange MAX_MPITASKS_PER_NODE=128
 
