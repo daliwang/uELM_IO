@@ -3405,16 +3405,16 @@
     <COMPILERS>ibm,ibmgpu,pgi,pgigpu,gnu,gnugpu</COMPILERS>
     <MPILIBS>spectrum-mpi,mpi-serial</MPILIBS>
 
-    <PROJECT>cli180</PROJECT>
-    <CHARGE_ACCOUNT>cli180</CHARGE_ACCOUNT>
-    <SAVE_TIMING_DIR>/gpfs/alpine2/cli180/proj-shared/$PROJECT</SAVE_TIMING_DIR>
-    <SAVE_TIMING_DIR_PROJECTS>cli180</SAVE_TIMING_DIR_PROJECTS>
-    <CIME_OUTPUT_ROOT>/gpfs/alpine2/$PROJECT/proj-shared/$ENV{USER}/e3sm_runs</CIME_OUTPUT_ROOT>
-    <DIN_LOC_ROOT>/gpfs/alpine2/cli180/proj-shared/wangd/inputdata</DIN_LOC_ROOT>
-    <DIN_LOC_ROOT_CLMFORC>/gpfs/alpine2/cli180/proj-shared/wangd/inputdata/atm/datm7</DIN_LOC_ROOT_CLMFORC>
-    <DOUT_S_ROOT>/gpfs/alpine2/$PROJECT/proj-shared/$ENV{USER}/archive/$CASE</DOUT_S_ROOT>
-    <BASELINE_ROOT>/gpfs/alpine2/cli180/proj-shared/e3sm/baselines/$COMPILER</BASELINE_ROOT>
-    <CCSM_CPRNC>/gpfs/alpine2/cli180/proj-shared/</CCSM_CPRNC>
+    <PROJECT>cli185</PROJECT>
+    <CHARGE_ACCOUNT>cli185</CHARGE_ACCOUNT>
+    <SAVE_TIMING_DIR>/gpfs/wolf2/cades/cli185/scratch/guzhuowei0407/$PROJECT</SAVE_TIMING_DIR>
+    <SAVE_TIMING_DIR_PROJECTS>cli185</SAVE_TIMING_DIR_PROJECTS>
+    <CIME_OUTPUT_ROOT>/gpfs/wolf2/cades/$PROJECT/scratch/$ENV{USER}</CIME_OUTPUT_ROOT>
+    <DIN_LOC_ROOT>/gpfs/wolf2/cades/cli185/proj-shared/pt-e3sm-inputdata</DIN_LOC_ROOT>
+    <DIN_LOC_ROOT_CLMFORC>/gpfs/wolf2/cades/cli185/proj-shared/wangd/pt-e3sm-inputdata/atm/datm7</DIN_LOC_ROOT_CLMFORC>
+    <DOUT_S_ROOT>/gpfs/wolf2/cades/$PROJECT/proj-shared/$ENV{USER}/archive/$CASE</DOUT_S_ROOT>
+    <BASELINE_ROOT>/gpfs/wolf2/cades/cli185/proj-shared/e3sm/baselines/$COMPILER</BASELINE_ROOT>
+    <CCSM_CPRNC>/gpfs/wolf2/cades/cli185/proj-shared/</CCSM_CPRNC>
     <GMAKE_J>8</GMAKE_J>
     <TESTS>e3sm_developer</TESTS>
     <NTEST_PARALLEL_JOBS>4</NTEST_PARALLEL_JOBS>

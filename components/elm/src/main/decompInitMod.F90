@@ -164,12 +164,19 @@ contains
     enddo
 
     ! count total land gridcells
+    ! numg = 0
+    ! do ln = 1,lns
+    !    if (amask(ln) == 1) then
+    !       numg = numg + 1
+    !    endif
+    ! enddo
+
+    ! count total land gridcells(Modified by Zhuowei Gu)
     numg = 0
     do ln = 1,lns
-       if (amask(ln) == 1) then
-          numg = numg + 1
-       endif
+       numg = numg + 1
     enddo
+    ! -------------------------------------------------
    
     if (npes > numg) then
        write(iulog,*) 'decompInit_lnd(): Number of processes exceeds number ', &
@@ -206,31 +213,51 @@ contains
 
     lcid(:) = 0
     ng = 0
-    do ln = 1,lns
-       if (amask(ln) == 1) then
-          ng = ng  + 1
+    ! do ln = 1,lns
+    !    if (amask(ln) == 1) then
+    !       ng = ng  + 1
 
           !--- give to clumps in order based on nsegspc
-          if (seglen1) then
-             cid = mod(ng-1,nclumps) + 1
-          else
-             rcid = (dble(ng-1)/dble(numg))*dble(nsegspc)*dble(nclumps)
-             cid = mod(int(rcid),nclumps) + 1
-          endif
-          lcid(ln) = cid
+    !       if (seglen1) then
+    !          cid = mod(ng-1,nclumps) + 1
+    !       else
+    !          rcid = (dble(ng-1)/dble(numg))*dble(nsegspc)*dble(nclumps)
+    !          cid = mod(int(rcid),nclumps) + 1
+    !       endif
+    !       lcid(ln) = cid
 
           !--- give gridcell cell to pe that owns cid ---
           !--- this needs to be done to subsequently use function
           !--- get_proc_bounds(begg,endg) 
-          if (iam == clumps(cid)%owner) then
-             procinfo%ncells  = procinfo%ncells  + 1
-          endif
+    !       if (iam == clumps(cid)%owner) then
+    !          procinfo%ncells  = procinfo%ncells  + 1
+    !       endif
 
           !--- give gridcell to cid ---
-          clumps(cid)%ncells  = clumps(cid)%ncells  + 1
+    !       clumps(cid)%ncells  = clumps(cid)%ncells  + 1
 
-       end if
+    !    end if
+    ! enddo
+
+    ! Modified by Zhuowei Gu
+    do ln = 1,lns
+       ng = ng + 1
+       cid = amask(ln)
+       lcid(ln) = cid
+
+       if (iam == clumps(cid)%owner) then
+          procinfo%ncells  = procinfo%ncells  + 1
+       endif
+
+       clumps(cid)%ncells  = clumps(cid)%ncells  + 1
     enddo
+
+    ! if (masterproc) then
+    !    print *, "Printing all values of lcid from 1 to ", lns
+    !    do ln = 1, lns
+    !       print *, "lcid(", ln, ") = ", lcid(ln)
+    !    end do
+    ! endif
 
     ! calculate number of cells per process
     allocate(proc_ncell(0:npes-1), stat=ier)
@@ -326,6 +353,11 @@ contains
     ! Diagnostic output
 
     if (masterproc) then
+       print *, "Printing all values of lcid from 1 to ", lns
+       do ln = 1, lns
+           print *, "lcid(", ln, ") = ", lcid(ln)
+       end do
+
        write(iulog,*)' Surface Grid Characteristics'
        write(iulog,*)'   longitude points               = ',lni
        write(iulog,*)'   latitude points                = ',lnj
@@ -1316,11 +1348,17 @@ contains
     enddo
 
     ! count total active land gridcells
+    ! numg = 0
+    ! do ln = 1,lns
+    !    if (amask(ln) == 1) then
+    !       numg = numg + 1
+    !    endif
+    ! enddo
+
+    ! count total active land gridcells(Modified by Zhuowei Gu)
     numg = 0
     do ln = 1,lns
-       if (amask(ln) == 1) then
-          numg = numg + 1
-       endif
+       numg = numg + 1
     enddo
 
     if (npes > numg) then
