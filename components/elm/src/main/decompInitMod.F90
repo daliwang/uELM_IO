@@ -164,12 +164,7 @@ contains
     enddo
 
     ! count total land gridcells
-    numg = 0
-    do ln = 1,lns
-       if (amask(ln) == 1) then
-          numg = numg + 1
-       endif
-    enddo
+    numg = lns
    
     if (npes > numg) then
        write(iulog,*) 'decompInit_lnd(): Number of processes exceeds number ', &
@@ -207,17 +202,11 @@ contains
     lcid(:) = 0
     ng = 0
     do ln = 1,lns
-       if (amask(ln) == 1) then
           ng = ng  + 1
 
           !--- give to clumps in order based on nsegspc
-          if (seglen1) then
-             cid = mod(ng-1,nclumps) + 1
-          else
-             rcid = (dble(ng-1)/dble(numg))*dble(nsegspc)*dble(nclumps)
-             cid = mod(int(rcid),nclumps) + 1
-          endif
-          lcid(ln) = cid
+          cid = amask(ln) 
+          lcid(ln) = cid 
 
           !--- give gridcell cell to pe that owns cid ---
           !--- this needs to be done to subsequently use function
@@ -229,7 +218,6 @@ contains
           !--- give gridcell to cid ---
           clumps(cid)%ncells  = clumps(cid)%ncells  + 1
 
-       end if
     enddo
 
     ! calculate number of cells per process
@@ -442,7 +430,24 @@ contains
        allvecl(cid,plev) = allvecl(cid,plev) + ipfts       ! number of pfts for local clump cid 
        allvecl(cid,hlev) = allvecl(cid,hlev) + icohorts    ! number of cohorts for local clump cid 
     enddo
+
+    !if (masterproc) then
+    !   do n = 1, nclumps
+    !      write(iulog,*) 'before_number of gridcells for local clump cid ',iam,n,clumps(n)%ncells ,allvecl(n,glev)
+    !      write(iulog,*) 'before_number of gridcells for global clump cid ',iam,n,clumps(n)%ncells ,allvecg(n,glev)
+    !      write(iulog, *)
+    !    enddo
+    !endif
+
     call mpi_allreduce(allvecl,allvecg,size(allvecg),MPI_INTEGER,MPI_SUM,mpicom,ier)
+
+    !if (masterproc) then
+    !   do n = 1, nclumps
+    !      write(iulog,*) 'number of gridcells for local clump cid ',iam,n,clumps(n)%ncells ,allvecl(n,glev)
+    !      write(iulog,*) 'number of gridcells for global clump cid ',iam,n,clumps(n)%ncells ,allvecg(n,glev)
+    !      write(iulog, *) 
+    !    enddo
+    !endif
 
     ! Determine overall  total gridcells, landunits, columns and pfts and distribute
     ! gridcells over clumps
@@ -632,6 +637,12 @@ contains
 
     ! free work space
     deallocate(proc_nXXX, proc_begX)
+
+    ! if (masterproc) then
+    !    do n = 1, nclumps
+    !       write(iulog,*) 'decompInit_glcp(): allvecg error ncells ',iam,n,clumps(n)%ncells ,allvecg(n,glev)
+    !    enddo
+    ! endif
 
     do n = 1,nclumps
        if (clumps(n)%ncells      /= allvecg(n,glev) .or. &
@@ -1318,9 +1329,7 @@ contains
     ! count total active land gridcells
     numg = 0
     do ln = 1,lns
-       if (amask(ln) == 1) then
           numg = numg + 1
-       endif
     enddo
 
     if (npes > numg) then
