@@ -566,6 +566,16 @@ contains
        grc_pp%max_dayl(g) = daylength(grc_pp%lat(g), max_decl)
     end do
 
+    !if (masterproc) then
+    !   do g = bounds_proc%begg, bounds_proc%endg
+    !      write(*, '(A,I6)') "Current number of grid cell: ", g
+    !      write(*, '(A,F10.4)') "Latitude: ", grc_pp%lat(g)
+    !      write(*, '(A,F10.4)') "Longitude: ", grc_pp%lon(g)
+    !      write(*, '(A,F10.4)') "lat degree: ", grc_pp%latdeg(g)
+    !      write(*, '(A,F10.4)') "lon degree: ", grc_pp%londeg(g)       
+    !    enddo
+    !endif
+
     ! History file variables
 
     if (use_cn) then

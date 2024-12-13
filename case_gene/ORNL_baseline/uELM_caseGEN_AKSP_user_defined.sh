@@ -5,13 +5,13 @@ set -e
 # Create a test case uELM_AKSP_I1850uELMCNPRDCTCBC
 
 E3SM_DIN="/gpfs/wolf2/cades/cli185/proj-shared/pt-e3sm-inputdata"
-DATA_ROOT="/gpfs/wolf2/cades/cli185/proj-shared/wangd/kiloCraft/NA_cases_data"
+DATA_ROOT="/gpfs/wolf2/cades/cli185/scratch/guzhuowei0407/NA_cases_data"
 E3SM_SRCROOT=$(git rev-parse --show-toplevel)
 echo "E3SM_SRCROOT: $E3SM_SRCROOT"
 echo "E3SM_DIN: $E3SM_DIN"
 
 EXPID="AKSP"
-CASEDIR="$E3SM_SRCROOT/e3sm_cases/uELM_${EXPID}_I1850uELMCNPRDCTCBC_original"
+CASEDIR="$E3SM_SRCROOT/e3sm_cases/uELM_${EXPID}_I1850uELMCNPRDCTCBC"
 CASE_DATA="${DATA_ROOT}/${EXPID}"
 DOMAIN_FILE="${EXPID}_domain.lnd.Daymet_NA.1km.1d.c240524.nc"
 SURFDATA_FILE="${EXPID}_surfdata.Daymet_NA.1km.1d.c240524.nc"
@@ -46,9 +46,9 @@ cd "${CASEDIR}"
 
 ./xmlchange STOP_OPTION=ndays
 
-./xmlchange NTASKS_LND=128
+./xmlchange NTASKS_LND=42
 
-./xmlchange MAX_MPITASKS_PER_NODE=128
+./xmlchange MAX_MPITASKS_PER_NODE=42
 
 ./xmlchange ATM_DOMAIN_PATH="${CASE_DATA}/domain_surfdata/"
 
